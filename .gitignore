@@ -1,4 +1,56 @@
-// hola 
+# Dependencias
+node_modules/
+vendor/
 
+# Variables de entorno
+.env
+.env.local
+.env.*.local
 
-./database/base.sql
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+docker-compose.override.yml
+
+# Laravel específico
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*
+!backend/storage/.gitkeep
+!backend/storage/logs/.gitkeep
+
+# Base de datos
+database/backups/*.sql
+database/backups/*.dump
+database/pgadmin_data/
+*.sql.gz
+*.sql.backup
+
+# IMPORTANTE: NO excluir database/ (contiene scripts SQL necesarios)
+# database/  ← NUNCA descomentar esto
+
+# Archivos temporales
+tmp/
+temp/
+*.tmp
+
+# Volúmenes de Docker (datos persistentes)
+postgres-data/
+mysql-data/
