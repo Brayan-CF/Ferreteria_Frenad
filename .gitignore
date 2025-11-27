@@ -54,3 +54,8 @@ temp/
 # Volúmenes de Docker (datos persistentes)
 postgres-data/
 mysql-data/
+
+# extra Personal commit sh y guia buena practica
+.GIT_BEST_PRACTICES.md
+.commit_guide.sh
+
