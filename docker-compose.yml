@@ -27,17 +27,19 @@ volumes:
 services:
 
   # ==========================================================================
-  # SERVICIO 1: PostgreSQL Database
+  # SERVICIO 1: PostgreSQL Database - MODO SEGURO
   # ==========================================================================
   postgres_ferreteria:
     image: postgres:15-alpine
     container_name: ferreteria_postgres
     restart: unless-stopped
+    # Nota: PostgreSQL maneja permisos internamente, no especificamos user aquí
     environment:
       POSTGRES_DB: ${DB_DATABASE:-ferreteria_frenad}
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-frenad_postgres_2024}
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=es_ES.UTF-8"
+      PGDATA: /var/lib/postgresql/data/pgdata
       TZ: America/La_Paz
     ports:
       - "5432:5432"
@@ -53,20 +55,33 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    # ========================================================================
+    # CONFIGURACIÓN DE SEGURIDAD
+    # ========================================================================
+    security_opt:
+      - no-new-privileges:true  # Prevenir escalación de privilegios
+    cap_drop:
+      - ALL  # Eliminar todas las capabilities
+    cap_add:
+      - CHOWN      # Cambiar propietarios de archivos (necesario para PostgreSQL)
+      - FOWNER     # Bypass permission checks
+      - SETGID     # Cambiar GID de procesos
+      - SETUID     # Cambiar UID de procesos
 
   # ==========================================================================
-  # SERVICIO 2: Backend Laravel (API REST)
+  # SERVICIO 2: Backend Laravel (API REST) - MODO SEGURO
   # ==========================================================================
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
       args:
-        USER_ID: 1000
-        GROUP_ID: 1000
+        USER_ID: ${USER_ID:-1000}    # ← UID del usuario host (lemon)
+        GROUP_ID: ${GROUP_ID:-1000}   # ← GID del usuario host (lemon)
     container_name: ferreteria_backend
     restart: unless-stopped
     working_dir: /var/www/html
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"  # ← Forzar ejecución como usuario no-root
     environment:
       APP_NAME: ${APP_NAME:-FerreriaFrenad}
       APP_ENV: ${APP_ENV:-local}
@@ -82,13 +97,22 @@ services:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
       - ./backend:/var/www/html
-      - backend_vendor:/var/www/html/vendor
+      # - backend_vendor:/var/www/html/vendor  # Comentado: usar vendor local
     depends_on:
       postgres_ferreteria:
         condition: service_healthy
     networks:
       ferreteria_network:
         ipv4_address: 172.20.0.20
+    # ========================================================================
+    # CONFIGURACIÓN DE SEGURIDAD
+    # ========================================================================
+    security_opt:
+      - no-new-privileges:true  # Prevenir escalación de privilegios
+    cap_drop:
+      - ALL  # Eliminar todas las capabilities por defecto
+    cap_add:
+      - NET_BIND_SERVICE  # Solo permitir binding a puertos (necesario para artisan serve)
     command: php artisan serve --host=0.0.0.0 --port=8000
 
   # ==========================================================================
