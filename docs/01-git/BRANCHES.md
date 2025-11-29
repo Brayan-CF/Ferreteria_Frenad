@@ -236,8 +236,12 @@ git log --graph --oneline --all
 - [x] Estructura de directorios BDD/TDD
 - [x] Documentación de workflow
 - [x] Guías de buenas prácticas Git
+- [x] Primera feature `feature/bdd-auth` creada ✅
+- [x] Especificaciones BDD completas ✅
+- [x] Guías de BDD/TDD documentadas ✅
+- [x] Workflow de integración documentado ✅
+- [x] Protección de master documentada ✅
 - [ ] Configurar protección de `master` en GitHub ⏳
-- [ ] Crear primera feature `feature/bdd-auth` ⏳
 - [ ] Configurar remoto `origin` ⏳
 
 ---

@@ -86,8 +86,13 @@ docker-compose ps
 
 ## 📖 Documentación Completa
 
-La documentación exhaustiva está en [`docs/04-database/`](docs/04-database/):
+### Git y Workflow
+- **[docs/01-git/](docs/01-git/)** - Control de versiones y workflow profesional
+  - **[GIT_BEST_PRACTICES.md](docs/01-git/GIT_BEST_PRACTICES.md)** - Buenas prácticas de Git
+  - **[BRANCHES.md](docs/01-git/BRANCHES.md)** - Estrategia de ramas del proyecto
 
+### Base de Datos
+La documentación exhaustiva está en [`docs/04-database/`](docs/04-database/):
 - **[00-introduccion.md](docs/04-database/00-introduccion.md)** - Visión general del sistema
 - **[01-arquitectura.md](docs/04-database/01-arquitectura.md)** - Arquitectura de la base de datos
 - **[07-instalacion.md](docs/04-database/07-instalacion.md)** - Guía de instalación detallada
@@ -95,8 +100,25 @@ La documentación exhaustiva está en [`docs/04-database/`](docs/04-database/):
 - **[10-testing.md](docs/04-database/10-testing.md)** - Guía de testing
 - **[importante.md](docs/04-database/importante.md)** - Documentación técnica académica (tablas, ER, normalización)
 
-### Módulos Documentados
+### Deployment
+- **[docs/05-deployment/](docs/05-deployment/)** - Guías de despliegue
+  - **[comandos.md](docs/05-deployment/comandos.md)** - Comandos útiles de deployment
+  - **[CHECKLIST.md](docs/05-deployment/CHECKLIST.md)** - Checklist pre-deployment
 
+### Testing y Metodología
+- **[docs/05-testing/](docs/05-testing/)** - Metodología BDD/TDD completa
+  - **[00-workflow-maestro.md](docs/05-testing/00-workflow-maestro.md)** - Workflow maestro Git+BDD+TDD
+  - **[01-introduccion.md](docs/05-testing/01-introduccion.md)** - Introducción a BDD/TDD
+  - **[02-bdd-guide.md](docs/05-testing/02-bdd-guide.md)** - Guía completa BDD
+  - **[03-tdd-guide.md](docs/05-testing/03-tdd-guide.md)** - Guía completa TDD
+  - **[06-master-protection.md](docs/05-testing/06-master-protection.md)** - Protección de master y versionado
+  - **[07-develop-integration.md](docs/05-testing/07-develop-integration.md)** - Integración segura en develop
+
+### Features (Especificaciones BDD)
+- **[docs/06-features/](docs/06-features/)** - Especificaciones BDD por módulo
+  - **[01-auth.feature.md](docs/06-features/01-auth.feature.md)** - Autenticación (13 escenarios)
+
+### Módulos Documentados
 - **[02-modulos/01-auth.md](docs/04-database/02-modulos/01-auth.md)** - Autenticación y roles
 - **[02-modulos/02-productos.md](docs/04-database/02-modulos/02-productos.md)** - Catálogo de productos
 - **[02-modulos/03-inventario.md](docs/04-database/02-modulos/03-inventario.md)** - Control de stock
