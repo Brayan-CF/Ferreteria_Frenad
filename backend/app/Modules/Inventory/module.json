@@ -1,0 +1,8 @@
+{
+    "name": "Inventory",
+    "alias": "inventory",
+    "description": "Módulo de Inventory",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

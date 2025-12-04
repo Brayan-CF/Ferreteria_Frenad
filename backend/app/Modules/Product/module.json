@@ -1,0 +1,8 @@
+{
+    "name": "Product",
+    "alias": "product",
+    "description": "Módulo de Product",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

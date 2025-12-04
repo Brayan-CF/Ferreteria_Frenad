@@ -1,0 +1,8 @@
+{
+    "name": "Sales",
+    "alias": "sales",
+    "description": "Módulo de Sales",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

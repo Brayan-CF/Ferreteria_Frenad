@@ -1,0 +1,8 @@
+{
+    "name": "Reports",
+    "alias": "reports",
+    "description": "Módulo de Reports",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

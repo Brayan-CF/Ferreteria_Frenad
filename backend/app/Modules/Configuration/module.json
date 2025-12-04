@@ -1,0 +1,8 @@
+{
+    "name": "Configuration",
+    "alias": "configuration",
+    "description": "Módulo de Configuration",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

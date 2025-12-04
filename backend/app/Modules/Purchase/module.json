@@ -1,0 +1,8 @@
+{
+    "name": "Purchase",
+    "alias": "purchase",
+    "description": "Módulo de Purchase",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

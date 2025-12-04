@@ -1,0 +1,8 @@
+{
+    "name": "Customer",
+    "alias": "customer",
+    "description": "Módulo de Customer",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

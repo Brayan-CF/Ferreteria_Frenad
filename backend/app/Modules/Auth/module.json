@@ -1,0 +1,8 @@
+{
+    "name": "Auth",
+    "alias": "auth",
+    "description": "Módulo de Auth",
+    "keywords": [],
+    "active": true,
+    "order": 0
+}

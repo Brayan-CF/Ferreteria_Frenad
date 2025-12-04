@@ -10,9 +10,12 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "spatie/laravel-fractal": "^6.3",
+        "spatie/laravel-query-builder": "^6.3",
         "tymon/jwt-auth": "^2.2"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.1",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
@@ -25,8 +28,12 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
-        }
+            "Database\\Seeders\\": "database/seeders/",
+            "Modules\\": "app/Modules/"
+        },
+        "files": [
+            "app/Modules/Shared/Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
