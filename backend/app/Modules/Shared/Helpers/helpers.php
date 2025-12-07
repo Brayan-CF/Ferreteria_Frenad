@@ -78,3 +78,51 @@ if (!function_exists('format_ruc_nit')) {
         return $cleaned;
     }
 }
+
+if (!function_exists('success_response')) {
+    /**
+     * Respuesta exitosa estandarizada
+     *
+     * @param mixed $data
+     * @param string $message
+     * @param int $code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function success_response($data = null, string $message = 'Operación exitosa', int $code = 200): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'data' => $data
+        ], $code);
+    }
+}
+
+if (!function_exists('error_response')) {
+    /**
+     * Respuesta de error estandarizada
+     *
+     * @param string $message
+     * @param mixed $errors
+     * @param int $code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function error_response(string $message = 'Ha ocurrido un error', $errors = null, int $code = 500): \Illuminate\Http\JsonResponse
+    {
+        // Validar que el código HTTP sea válido (100-599)
+        if ($code < 100 || $code > 599) {
+            $code = 500;
+        }
+
+        $response = [
+            'success' => false,
+            'message' => $message
+        ];
+
+        if ($errors !== null) {
+            $response['errors'] = $errors;
+        }
+
+        return response()->json($response, $code);
+    }
+}
