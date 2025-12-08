@@ -59,3 +59,4 @@ mysql-data/
 .GIT_BEST_PRACTICES.md
 .commit_guide.sh
 
+backend/test_venta.php
