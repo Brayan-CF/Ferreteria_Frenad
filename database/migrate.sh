@@ -29,10 +29,13 @@ execute_sql() {
     local file=$1
     echo -e "${YELLOW}📄 Ejecutando: $file${NC}"
     
-    if psql -U $DB_USER -h $DB_HOST -p $DB_PORT -d $DB_NAME -f "$file" > /dev/null 2>&1; then
+    # Ejecutar en el contenedor Docker
+    if docker exec -i ferreteria_postgres psql -U $DB_USER -d $DB_NAME < "$file" > /dev/null 2>&1; then
         echo -e "${GREEN}   ✅ Completado${NC}"
     else
         echo -e "${RED}   ❌ Error en: $file${NC}"
+        echo -e "${YELLOW}   Detalles del error:${NC}"
+        docker exec -i ferreteria_postgres psql -U $DB_USER -d $DB_NAME < "$file"
         exit 1
     fi
 }
@@ -49,11 +52,11 @@ done
 
 # 3. Foreign Keys diferidas
 echo -e "\n${GREEN}═══ PASO 3: FOREIGN KEYS ═══${NC}"
-execute_sql "07_foreign_keys/foreign_keys.sql"
+execute_sql "07_foreing_keys/foreign_keys.sql"
 
 # 4. Índices
 echo -e "\n${GREEN}═══ PASO 4: ÍNDICES ═══${NC}"
-for file in 02_indexes/*.sql; do
+for file in 02_indixes/*.sql; do
     execute_sql "$file"
 done
 
