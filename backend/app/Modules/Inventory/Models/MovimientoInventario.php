@@ -19,10 +19,6 @@ class MovimientoInventario extends Model
         'almacen_destino_id',
         'tipo_movimiento',
         'cantidad',
-        'compra_id',
-        'venta_id',
-        'detalle_compra_id',
-        'detalle_venta_id',
         'razon',
         'usuario_id',
     ];
