@@ -9,14 +9,13 @@ Esta carpeta contiene las **especificaciones de comportamiento** del sistema en 
 ```
 06-features/
 ├── README.md                # Este archivo
-├── 01-auth.feature.md       # Autenticación y autorización
-├── 02-products.feature.md   # Gestión de productos
-├── 03-inventory.feature.md  # Control de inventario
-├── 04-sales.feature.md      # Procesamiento de ventas
-├── 05-customers.feature.md  # Gestión de clientes
-├── 06-purchases.feature.md  # Gestión de compras
-├── 07-cash.feature.md       # Caja y arqueos
-└── 08-reports.feature.md    # Reportes y auditoría
+├── 01-auth.feature.md       # Autenticación y autorización ✅
+├── 02-products.feature.md   # Gestión de productos ✅
+├── 03-inventory.feature.md  # Control de inventario ✅
+├── 04-sales.feature.md      # Procesamiento de ventas ✅
+├── 05-customers.feature.md  # Gestión de clientes ✅
+├── 06-purchases.feature.md  # Gestión de compras ✅
+└── 07-reports.feature.md    # Reportes y análisis ✅
 ```
 
 ---
