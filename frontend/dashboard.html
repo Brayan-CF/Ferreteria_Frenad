@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Dashboard - Ferretería Frenad</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css?v=2.0.0">
+  <link rel="stylesheet" href="css/reset.css?v=2.0.0">
+  <link rel="stylesheet" href="css/components.css?v=2.0.0">
+  <link rel="stylesheet" href="css/layout.css?v=2.0.0">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <div class="sidebar-logo">F</div>
+        <div class="sidebar-brand">
+          <div class="sidebar-title">Ferretería Frenad</div>
+          <div class="sidebar-subtitle">Sistema POS</div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <!-- Se llena dinámicamente según el rol -->
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="sidebar-user">
+          <div class="avatar" id="user-avatar">
+            <!-- Iniciales del usuario -->
+          </div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="user-name">Usuario</div>
+            <div class="sidebar-user-role" id="user-role">Rol</div>
+          </div>
+          <button type="button" class="btn btn-icon" id="logout-btn" title="Cerrar sesión">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="header-toggle" id="sidebar-toggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <h1 class="header-title">Dashboard</h1>
+        </div>
+        <div class="header-right">
+          <div class="theme-toggle"></div>
+          <div class="header-user" id="header-user">
+            <span class="header-user-name" id="header-user-name">Usuario</span>
+            <div class="avatar avatar-sm" id="header-avatar"></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Bienvenido, <span id="welcome-name">Usuario</span></h2>
+            <p class="page-subtitle">Resumen general del sistema</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="btn btn-primary" id="new-sale-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Nueva Venta
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="stats-grid">
+          <!-- Ventas de Hoy -->
+          <div class="card card-stat">
+            <div class="card-body">
+              <div class="stat-icon" style="background-color: var(--color-primary-light); color: var(--color-primary);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value" id="stat-ventas-hoy">Bs. 0.00</div>
+                <div class="stat-label">Ventas de Hoy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Productos en Stock -->
+          <div class="card card-stat">
+            <div class="card-body">
+              <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--color-success);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value" id="stat-productos">0</div>
+                <div class="stat-label">Productos en Stock</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clientes Activos -->
+          <div class="card card-stat">
+            <div class="card-body">
+              <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--color-secondary);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value" id="stat-clientes">0</div>
+                <div class="stat-label">Clientes Activos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock Bajo -->
+          <div class="card card-stat">
+            <div class="card-body">
+              <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--color-danger);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value" id="stat-stock-bajo">0</div>
+                <div class="stat-label">Productos Stock Bajo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions / Recent Activity -->
+        <div class="row">
+          <!-- Accesos Rápidos -->
+          <div class="col col-6">
+            <div class="card">
+              <div class="card-header">
+                <h3>Accesos Rápidos</h3>
+              </div>
+              <div class="card-body">
+                <div class="quick-actions" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                  <a href="pos.html" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                      <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                    Punto de Venta
+                  </a>
+                  <a href="productos.html" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                    Productos
+                  </a>
+                  <a href="clientes.html" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                    </svg>
+                    Clientes
+                  </a>
+                  <a href="inventario.html" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 3h18v18H3z"></path>
+                      <path d="M3 9h18"></path>
+                      <path d="M3 15h18"></path>
+                      <path d="M9 3v18"></path>
+                    </svg>
+                    Inventario
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actividad Reciente -->
+          <div class="col col-6">
+            <div class="card">
+              <div class="card-header">
+                <h3>Actividad Reciente</h3>
+              </div>
+              <div class="card-body" id="recent-activity">
+                <p class="text-muted" style="text-align: center; padding: 20px;">
+                  Cargando actividad reciente...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/config.js?v=1.0.5"></script>
+  <script src="js/api.js?v=1.0.5"></script>
+  <script src="js/auth.js?v=1.0.5"></script>
+  <script src="js/utils.js?v=1.0.5"></script>
+  <script src="js/theme.js?v=1.0.5"></script>
+  <script>
+    // ========================================
+    // DASHBOARD PAGE SCRIPT
+    // ========================================
+
+    // Navegación del sidebar según rol
+    const navItems = {
+      dashboard: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>`,
+        text: 'Dashboard',
+        href: 'dashboard.html'
+      },
+      pos: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+        </svg>`,
+        text: 'Punto de Venta',
+        href: 'pos.html'
+      },
+      productos: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        </svg>`,
+        text: 'Productos',
+        href: 'productos.html'
+      },
+      inventario: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3h18v18H3z"></path>
+          <path d="M3 9h18"></path>
+          <path d="M9 3v18"></path>
+        </svg>`,
+        text: 'Inventario',
+        href: 'inventario.html'
+      },
+      clientes: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+        </svg>`,
+        text: 'Clientes',
+        href: 'clientes.html'
+      },
+      compras: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>`,
+        text: 'Compras',
+        href: 'compras.html'
+      },
+      reportes: {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>`,
+        text: 'Reportes',
+        href: 'reportes.html'
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('Dashboard loaded');
+      console.log('Token in storage:', localStorage.getItem(CONFIG.STORAGE.TOKEN));
+      console.log('User in storage:', localStorage.getItem(CONFIG.STORAGE.USER));
+      
+      // Verificar autenticación
+      console.log('Checking authentication...');
+      if (!auth.requireAuth()) {
+        console.log('Auth check failed, redirecting to login');
+        return;
+      }
+      console.log('Auth check passed');
+
+      // Obtener elementos
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebarNav = document.getElementById('sidebar-nav');
+      const logoutBtn = document.getElementById('logout-btn');
+      const newSaleBtn = document.getElementById('new-sale-btn');
+
+      // Llenar información del usuario
+      const user = auth.getUser();
+      const userName = auth.getUserName();
+      const userRole = auth.getUserRole();
+      const userInitials = auth.getUserInitials();
+
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-role').textContent = userRole;
+      document.getElementById('user-avatar').textContent = userInitials;
+      document.getElementById('header-user-name').textContent = userName;
+      document.getElementById('header-avatar').textContent = userInitials;
+      document.getElementById('welcome-name').textContent = userName.split(' ')[0];
+
+      // Estilo del avatar
+      const avatarStyle = `
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+      `;
+      document.getElementById('user-avatar').style.cssText = avatarStyle;
+      document.getElementById('header-avatar').style.cssText = avatarStyle.replace('36px', '32px').replace('14px', '12px');
+
+      // Generar navegación según permisos del rol
+      const permissions = CONFIG.PERMISSIONS[userRole] || [];
+      let navHTML = '<div class="nav-section"><div class="nav-section-title">Menú Principal</div>';
+      
+      permissions.forEach(page => {
+        if (navItems[page]) {
+          const item = navItems[page];
+          const isActive = window.location.pathname.includes(item.href) ? 'active' : '';
+          navHTML += `
+            <a href="${item.href}" class="nav-item ${isActive}">
+              <span class="nav-item-icon">${item.icon}</span>
+              <span class="nav-item-text">${item.text}</span>
+            </a>
+          `;
+        }
+      });
+      
+      navHTML += '</div>';
+      sidebarNav.innerHTML = navHTML;
+
+      // Toggle sidebar en móvil
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('active');
+      });
+
+      sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+      });
+
+      // Logout
+      logoutBtn.addEventListener('click', async () => {
+        const confirmed = await Utils.confirm(CONFIG.MESSAGES.CONFIRM.LOGOUT, 'Cerrar Sesión');
+        if (confirmed) {
+          await auth.logout();
+        }
+      });
+
+      // Nueva venta
+      newSaleBtn.addEventListener('click', () => {
+        window.location.href = 'pos.html';
+      });
+
+      // Cargar estadísticas
+      loadDashboardStats();
+    });
+
+    // Cargar estadísticas del dashboard
+    async function loadDashboardStats() {
+      try {
+        // Intentar cargar stats del dashboard
+        const response = await api.getDashboardStats();
+        
+        if (response.success && response.data) {
+          const stats = response.data;
+          
+          // Actualizar valores
+          if (stats.ventas_hoy !== undefined) {
+            document.getElementById('stat-ventas-hoy').textContent = Utils.formatCurrency(stats.ventas_hoy);
+          }
+          if (stats.productos !== undefined) {
+            document.getElementById('stat-productos').textContent = Utils.formatNumber(stats.productos);
+          }
+          if (stats.clientes !== undefined) {
+            document.getElementById('stat-clientes').textContent = Utils.formatNumber(stats.clientes);
+          }
+          if (stats.stock_bajo !== undefined) {
+            document.getElementById('stat-stock-bajo').textContent = Utils.formatNumber(stats.stock_bajo);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+
+      // Cargar actividad reciente (placeholder por ahora)
+      document.getElementById('recent-activity').innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--color-success);"></div>
+            <span style="flex: 1; color: var(--text-secondary); font-size: 14px;">Sistema iniciado correctamente</span>
+            <span style="font-size: 12px; color: var(--text-tertiary);">Ahora</span>
+          </div>
+          <p style="text-align: center; color: var(--text-tertiary); font-size: 14px;">
+            Las ventas y actividades recientes aparecerán aquí.
+          </p>
+        </div>
+      `;
+    }
+  </script>
+
+  <style>
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-stat .card-body {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .stat-content {
+      flex: 1;
+    }
+
+    .stat-value {
+      font-size: var(--font-size-xl);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .stat-label {
+      font-size: var(--font-size-sm);
+      color: var(--text-tertiary);
+    }
+  </style>
+</body>
+</html>

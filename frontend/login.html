@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Iniciar Sesión - Ferretería Frenad</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css?v=2.0.0">
+  <link rel="stylesheet" href="css/reset.css?v=2.0.0">
+  <link rel="stylesheet" href="css/components.css?v=2.0.0">
+  <link rel="stylesheet" href="css/layout.css?v=2.0.0">
+</head>
+<body class="login-page">
+  <!-- Theme Toggle -->
+  <div class="login-theme-toggle">
+    <div class="theme-toggle"></div>
+  </div>
+
+  <!-- Login Container -->
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Header -->
+      <div class="login-header">
+        <div class="login-logo">F</div>
+        <h1 class="login-title">Ferretería Frenad</h1>
+        <p class="login-subtitle">Sistema de Punto de Venta</p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" autocomplete="on">
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="email">Correo electrónico</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-control" 
+            placeholder="ejemplo@frenad.com"
+            autocomplete="email"
+            required
+          >
+          <span class="form-error" data-error="email"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="password">Contraseña</label>
+          <div class="password-wrapper" style="position: relative;">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-control" 
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+              minlength="6"
+            >
+            <button 
+              type="button" 
+              id="toggle-password" 
+              class="password-toggle"
+              style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-tertiary); padding: 4px;"
+              title="Mostrar contraseña"
+            >
+              <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg id="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+          <span class="form-error" data-error="password"></span>
+        </div>
+
+        <!-- Remember me -->
+        <div class="form-group">
+          <label class="form-checkbox">
+            <input type="checkbox" id="remember" name="remember">
+            <span class="checkmark"></span>
+            Recordar mi correo
+          </label>
+        </div>
+
+        <!-- Error message -->
+        <div id="login-error" class="alert alert-danger" style="display: none;">
+          <span class="alert-icon">✕</span>
+          <span class="alert-message"></span>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" id="login-btn" class="btn btn-primary" style="width: 100%;">
+          <span class="btn-text">Iniciar Sesión</span>
+          <span class="btn-loading" style="display: none;">
+            <span class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></span>
+          </span>
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="login-footer">
+        <p>© 2025 Ferretería Frenad. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/config.js?v=1.0.5"></script>
+  <script src="js/api.js?v=1.0.5"></script>
+  <script src="js/auth.js?v=1.0.5"></script>
+  <script src="js/utils.js?v=1.0.5"></script>
+  <script src="js/theme.js?v=1.0.5"></script>
+  <script>
+    // ========================================
+    // LOGIN PAGE SCRIPT
+    // ========================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Login page loaded');
+      console.log('Token in storage:', localStorage.getItem(CONFIG.STORAGE.TOKEN));
+      console.log('User in storage:', localStorage.getItem(CONFIG.STORAGE.USER));
+      
+      // Si ya está autenticado, redirigir a su página de inicio
+      if (auth.isAuthenticated()) {
+        console.log('Already authenticated, redirecting to:', auth.getHomePage());
+        window.location.href = auth.getHomePage();
+        return;
+      }
+      
+      console.log('Not authenticated, showing login form');
+
+      // Referencias a elementos
+      const form = document.getElementById('login-form');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const rememberCheckbox = document.getElementById('remember');
+      const loginBtn = document.getElementById('login-btn');
+      const loginError = document.getElementById('login-error');
+      const togglePassword = document.getElementById('toggle-password');
+      const eyeIcon = document.getElementById('eye-icon');
+      const eyeOffIcon = document.getElementById('eye-off-icon');
+
+      // Cargar email recordado
+      const rememberedEmail = auth.getRememberedEmail();
+      if (rememberedEmail) {
+        emailInput.value = rememberedEmail;
+        rememberCheckbox.checked = true;
+        passwordInput.focus();
+      } else {
+        emailInput.focus();
+      }
+
+      // Toggle mostrar/ocultar contraseña
+      togglePassword.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.style.display = isPassword ? 'none' : 'block';
+        eyeOffIcon.style.display = isPassword ? 'block' : 'none';
+        togglePassword.title = isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña';
+      });
+
+      // Ocultar error al escribir
+      [emailInput, passwordInput].forEach(input => {
+        input.addEventListener('input', () => {
+          loginError.style.display = 'none';
+          input.classList.remove('error');
+        });
+      });
+
+      // Manejar envío del formulario
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const remember = rememberCheckbox.checked;
+
+        // Validación básica
+        let hasError = false;
+
+        if (!email) {
+          emailInput.classList.add('error');
+          document.querySelector('[data-error="email"]').textContent = 'El correo es requerido';
+          hasError = true;
+        } else if (!Utils.isValidEmail(email)) {
+          emailInput.classList.add('error');
+          document.querySelector('[data-error="email"]').textContent = 'Correo electrónico inválido';
+          hasError = true;
+        }
+
+        if (!password) {
+          passwordInput.classList.add('error');
+          document.querySelector('[data-error="password"]').textContent = 'La contraseña es requerida';
+          hasError = true;
+        } else if (password.length < 6) {
+          passwordInput.classList.add('error');
+          document.querySelector('[data-error="password"]').textContent = 'Mínimo 6 caracteres';
+          hasError = true;
+        }
+
+        if (hasError) return;
+
+        // Mostrar estado de carga
+        setLoading(true);
+        loginError.style.display = 'none';
+
+        try {
+          // Intentar login
+          const result = await auth.login(email, password, remember);
+          
+          console.log('Login result:', result);
+          console.log('Token after login:', localStorage.getItem(CONFIG.STORAGE.TOKEN));
+          console.log('User after login:', localStorage.getItem(CONFIG.STORAGE.USER));
+
+          if (result.success) {
+            console.log('Login successful, redirecting to:', auth.getHomePage());
+            // Redirigir a la página de inicio del rol
+            window.location.href = auth.getHomePage();
+          } else {
+            // Mostrar error
+            showError(result.message || 'Credenciales incorrectas');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          showError('Error de conexión. Intenta de nuevo.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Función para mostrar estado de carga
+      function setLoading(loading) {
+        loginBtn.disabled = loading;
+        loginBtn.querySelector('.btn-text').style.display = loading ? 'none' : 'inline';
+        loginBtn.querySelector('.btn-loading').style.display = loading ? 'inline-flex' : 'none';
+        
+        if (loading) {
+          emailInput.disabled = true;
+          passwordInput.disabled = true;
+          rememberCheckbox.disabled = true;
+        } else {
+          emailInput.disabled = false;
+          passwordInput.disabled = false;
+          rememberCheckbox.disabled = false;
+        }
+      }
+
+      // Función para mostrar error
+      function showError(message) {
+        loginError.querySelector('.alert-message').textContent = message;
+        loginError.style.display = 'flex';
+        
+        // Shake animation
+        loginError.style.animation = 'none';
+        loginError.offsetHeight; // Trigger reflow
+        loginError.style.animation = 'shake 0.5s ease';
+      }
+    });
+  </script>
+
+  <!-- Shake animation -->
+  <style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .btn-loading {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .password-toggle:hover {
+      color: var(--text-primary) !important;
+    }
+  </style>
+</body>
+</html>
