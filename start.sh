@@ -82,6 +82,15 @@ else
     print_success ".env ya existe"
 fi
 
+# Verificar .env del backend (importante para Laravel)
+if [ ! -f "backend/.env" ]; then
+    print_warning "backend/.env no existe, copiando desde backend/.env.example"
+    cp backend/.env.example backend/.env
+    print_success "backend/.env creado"
+else
+    print_success "backend/.env ya existe"
+fi
+
 if [ ! -f "docker-compose.yml" ]; then
     print_error "docker-compose.yml no encontrado"
     exit 1
@@ -160,7 +169,47 @@ while [ $attempt -lt $max_attempts ]; do
 done
 
 # ============================================================================
-# 7. EJECUTAR MIGRACIONES
+# 7. INSTALAR DEPENDENCIAS DE COMPOSER
+# ============================================================================
+
+print_header "INSTALANDO DEPENDENCIAS DE LARAVEL"
+
+print_info "Instalando dependencias de Composer..."
+
+# Verificar si vendor existe
+if docker exec ferreteria_backend test -d /var/www/html/vendor; then
+    print_warning "Directorio vendor ya existe, verificando..."
+    docker exec ferreteria_backend composer install --no-interaction --optimize-autoloader
+else
+    print_info "Instalando dependencias desde cero..."
+    docker exec ferreteria_backend composer install --no-interaction --optimize-autoloader
+fi
+
+if [ $? -eq 0 ]; then
+    print_success "Dependencias de Composer instaladas"
+else
+    print_error "Error al instalar dependencias de Composer"
+    print_info "Puedes intentar manualmente: docker exec ferreteria_backend composer install"
+fi
+
+# Generar clave de aplicación si no existe
+print_info "Verificando clave de aplicación..."
+if ! docker exec ferreteria_backend grep -q "^APP_KEY=base64:" /var/www/html/.env 2>/dev/null; then
+    print_info "Generando clave de aplicación..."
+    docker exec ferreteria_backend php artisan key:generate --force
+    print_success "Clave de aplicación generada"
+else
+    print_success "Clave de aplicación ya existe"
+fi
+
+# Limpiar caché
+print_info "Limpiando caché de configuración..."
+docker exec ferreteria_backend php artisan config:clear 2>/dev/null || true
+docker exec ferreteria_backend php artisan cache:clear 2>/dev/null || true
+print_success "Caché limpiado"
+
+# ============================================================================
+# 8. EJECUTAR MIGRACIONES
 # ============================================================================
 
 print_header "EJECUTANDO MIGRACIONES DE BASE DE DATOS"
@@ -184,7 +233,7 @@ else
 fi
 
 # ============================================================================
-# 8. VERIFICAR TABLAS CREADAS
+# 9. VERIFICAR TABLAS CREADAS
 # ============================================================================
 
 print_info "Verificando tablas creadas..."
@@ -198,7 +247,7 @@ else
 fi
 
 # ============================================================================
-# 9. VERIFICAR SERVICIOS
+# 10. VERIFICAR SERVICIOS
 # ============================================================================
 
 print_header "VERIFICANDO SERVICIOS"
@@ -227,15 +276,16 @@ else
 fi
 
 # ============================================================================
-# 10. MOSTRAR ESTADO
+# 11. MOSTRAR ESTADO
 # ============================================================================
 
 print_header "ESTADO DE CONTENEDORES"
 
 docker-compose ps
 
+
 # ============================================================================
-# 11. INFORMACIÓN FINAL
+# 12. INFORMACIÓN FINAL
 # ============================================================================
 
 print_header "✅ DEPLOYMENT COMPLETADO"
@@ -244,17 +294,28 @@ echo ""
 echo -e "${GREEN}📍 Servicios disponibles:${NC}"
 echo -e "  ${BLUE}•${NC} PostgreSQL:  localhost:5432"
 echo -e "  ${BLUE}•${NC} Backend API: ${GREEN}http://localhost:8000${NC}"
+echo -e "  ${BLUE}•${NC} API Docs:    ${GREEN}http://localhost:8000/docs${NC}"
 echo -e "  ${BLUE}•${NC} Frontend:    ${GREEN}http://localhost:8080${NC}"
 echo ""
-echo -e "${YELLOW}📖 Documentación:${NC}"
+echo -e "${YELLOW}� Credenciales de prueba:${NC}"
+echo -e "  ${BLUE}•${NC} Email:    admin@frenad.com"
+echo -e "  ${BLUE}•${NC} Password: password"
+echo ""
+echo -e "${YELLOW}�📖 Documentación:${NC}"
+echo -e "  ${BLUE}•${NC} API Docs:      http://localhost:8000/docs"
 echo -e "  ${BLUE}•${NC} Base de datos: docs/04-database/"
-echo -e "  ${BLUE}•${NC} Comandos útiles: comandos.md"
+echo -e "  ${BLUE}•${NC} Testing:       docs/05-testing/"
 echo ""
 echo -e "${YELLOW}🔧 Comandos útiles:${NC}"
 echo -e "  ${BLUE}•${NC} Ver logs:       ${GREEN}docker-compose logs -f${NC}"
 echo -e "  ${BLUE}•${NC} Detener:        ${GREEN}docker-compose stop${NC}"
 echo -e "  ${BLUE}•${NC} Reiniciar:      ${GREEN}docker-compose restart${NC}"
 echo -e "  ${BLUE}•${NC} Eliminar todo:  ${GREEN}docker-compose down -v${NC}"
+echo ""
+echo -e "${YELLOW}🧪 Ejecutar pruebas:${NC}"
+echo -e "  ${BLUE}•${NC} Todas:          ${GREEN}docker exec ferreteria_backend php artisan test${NC}"
+echo -e "  ${BLUE}•${NC} Feature tests:  ${GREEN}docker exec ferreteria_backend php artisan test tests/Feature${NC}"
+echo -e "  ${BLUE}•${NC} Unit tests:     ${GREEN}docker exec ferreteria_backend php artisan test tests/Unit${NC}"
 echo ""
 echo -e "${YELLOW}🐘 Acceso a pgAdmin (opcional):${NC}"
 echo -e "  ${BLUE}•${NC} Levantar:       ${GREEN}docker-compose --profile dev up -d pgadmin${NC}"
@@ -264,3 +325,4 @@ echo -e "  ${BLUE}•${NC} Password:       admin123"
 echo ""
 echo -e "${GREEN}============================================${NC}"
 echo ""
+

@@ -1,147 +1,277 @@
-# 🏪 Sistema POS Ferretería Frenad
+# 🏪 Sistema POS - Ferretería FRENAD
 
-Sistema completo de punto de venta y gestión administrativa para ferretería en El Alto, La Paz - Bolivia.
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-10.50-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"/>
+  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/Docker-24+-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+</p>
 
-## 🎯 Características
+<p align="center">
+  <strong>Sistema completo de Punto de Venta y Gestión Administrativa</strong><br>
+  Desarrollado para ferreterías en El Alto, La Paz - Bolivia 🇧🇴
+</p>
 
-- ✅ **Gestión de Ventas:** POS completo con soporte para créditos
-- ✅ **Control de Inventario:** Multi-almacén con kardex automatizado
-- ✅ **Gestión de Compras:** Órdenes y recepciones de mercadería
-- ✅ **Gestión de Clientes:** CRM con límites de crédito
-- ✅ **Arqueo de Caja:** Control diario de ingresos/egresos
-- ✅ **Auditoría Completa:** Logs de todas las operaciones críticas
+<p align="center">
+  <a href="#características">Características</a> •
+  <a href="#instalación-rápida">Instalación</a> •
+  <a href="#comandos-manuales-opcional">Comandos</a> •
+  <a href="#pruebas">Pruebas</a> •
+  <a href="#documentación">Documentación</a>
+</p>
+
+---
+
+## ✨ Características
+
+| Módulo | Descripción | Estado |
+|--------|-------------|--------|
+| 🛒 **Punto de Venta** | POS completo con soporte para ventas al contado y crédito | ✅ |
+| 📦 **Inventario** | Control multi-almacén con kardex automatizado | ✅ |
+| 🛍️ **Compras** | Gestión de órdenes y recepciones de mercadería | ✅ |
+| 👥 **Clientes** | CRM con límites de crédito y estados de cuenta | ✅ |
+| 💰 **Caja** | Arqueo diario de ingresos y egresos | ✅ |
+| 📊 **Reportes** | Ventas, compras, inventario y financiero | ✅ |
+| 🔐 **Seguridad** | Autenticación JWT con roles y permisos | ✅ |
+| 📝 **Auditoría** | Logs completos de operaciones críticas | ✅ |
+
+---
 
 ## 🛠️ Stack Tecnológico
 
-- **Backend:** Laravel 10 + PHP 8.2
-- **Frontend:** HTML5 + CSS3 + JavaScript + Nginx
-- **Base de Datos:** PostgreSQL 15
-- **Containerización:** Docker + Docker Compose
+| Capa | Tecnología |
+|------|------------|
+| 🌐 Frontend | HTML5 + CSS3 + JavaScript + Nginx |
+| 🔧 Backend API | Laravel 10.50 + PHP 8.2 |
+| 🐘 Base de Datos | PostgreSQL 15.8 |
+| 🐳 Containerización | Docker + Docker Compose |
+| 📖 API Docs | Scribe (OpenAPI 3.0) |
+| 🧪 Testing | PHPUnit (192 tests) |
+
+---
 
 ## 📋 Requisitos Previos
 
-- Docker 20.10+
-- Docker Compose 2.0+
-- Git
-- 4GB RAM mínimo
-- 10GB espacio en disco
+| Requisito | Versión Mínima | Verificar |
+|-----------|----------------|-----------|
+| 🐳 Docker | 20.10+ | \`docker --version\` |
+| 🐳 Docker Compose | 2.0+ | \`docker-compose --version\` |
+| 📂 Git | 2.0+ | \`git --version\` |
+| 💾 RAM | 4GB mínimo | - |
+| 💽 Disco | 10GB libres | - |
+
+---
 
 ## 🚀 Instalación Rápida
 
-### Opción 1: Script Automático (Recomendado)
+### Paso 1: Clonar el Repositorio
 
-```bash
-# 1. Clonar repositorio
-git clone <tu-repo>
-cd Ferreteria_Frenat
+\`\`\`bash
+git clone https://github.com/Brayan-CF/Ferreteria_Frenad.git
+cd Ferreteria_Frenad
+\`\`\`
 
-# 2. Ejecutar script de inicio
+### Paso 2: Ejecutar Script de Instalación
+
+\`\`\`bash
+# Dar permisos de ejecución
+chmod +x start.sh start-docker.sh database/*.sh
+
+# Ejecutar instalación completa
 ./start.sh
-```
+\`\`\`
 
-El script automáticamente:
-- ✅ Verifica requisitos
-- ✅ Crea directorios necesarios
-- ✅ Levanta contenedores Docker
-- ✅ Ejecuta migraciones de BD
-- ✅ Verifica que todo funcione
+> ⏱️ **Tiempo estimado:** 5-10 minutos en la primera ejecución
 
-### Opción 2: Manual
+---
 
-```bash
-# 1. Clonar repositorio
-git clone <tu-repo>
-cd Ferreteria_Frenat
+## ✅ ¿Qué hace el script \`start.sh\`?
 
-# 2. Verificar/crear .env
-cp .env.example .env  # Si no existe
+El script automatiza **TODO** el proceso de instalación:
 
-# 3. Crear directorios
+| Paso | Descripción |
+|------|-------------|
+| 1️⃣ | Verifica requisitos (Docker, Docker Compose) |
+| 2️⃣ | Crea archivos \`.env\` y \`backend/.env\` si no existen |
+| 3️⃣ | Crea directorios necesarios |
+| 4️⃣ | Construye las imágenes Docker |
+| 5️⃣ | Levanta todos los contenedores |
+| 6️⃣ | Espera a que PostgreSQL esté listo |
+| 7️⃣ | **Instala dependencias de Composer** |
+| 8️⃣ | Ejecuta migraciones de base de datos |
+| 9️⃣ | Genera seeders con datos iniciales |
+| 🔟 | Verifica que todos los servicios estén activos |
+
+**Al finalizar tendrás el sistema completamente funcional** 🎉
+
+---
+
+## 🔄 Scripts Disponibles
+
+| Script | Descripción | Cuándo Usar |
+|--------|-------------|-------------|
+| \`./start.sh\` | **Instalación completa** desde cero | Primera vez o reinstalación |
+| \`./start-docker.sh\` | Levantar contenedores existentes | Después de apagar la máquina |
+| \`./database/migrate.sh\` | Ejecutar migraciones SQL | Actualizar estructura BD |
+
+### 📌 Orden de Ejecución
+
+\`\`\`
+┌──────────────────────────────────────────────────────────────┐
+│  🆕 PRIMERA INSTALACIÓN                                      │
+├──────────────────────────────────────────────────────────────┤
+│  1. git clone https://github.com/Brayan-CF/Ferreteria_Frenad │
+│  2. cd Ferreteria_Frenad                                     │
+│  3. chmod +x start.sh start-docker.sh database/*.sh          │
+│  4. ./start.sh              ← Hace TODO automáticamente      │
+└──────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────┐
+│  🔄 REINICIAR (después de apagar la máquina)                 │
+├──────────────────────────────────────────────────────────────┤
+│  1. cd Ferreteria_Frenad                                     │
+│  2. ./start-docker.sh       ← Solo levanta los contenedores  │
+└──────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────┐
+│  🗄️ ACTUALIZAR BD (si hay cambios en SQL)                   │
+├──────────────────────────────────────────────────────────────┤
+│  1. cd Ferreteria_Frenad/database                            │
+│  2. ./migrate.sh            ← Re-ejecuta migraciones         │
+└──────────────────────────────────────────────────────────────┘
+\`\`\`
+
+---
+
+## 🌐 URLs de Acceso
+
+Una vez instalado, accede a los servicios:
+
+| Servicio | URL | Descripción |
+|----------|-----|-------------|
+| 🖥️ **Frontend** | http://localhost:8080 | Interfaz de usuario POS |
+| 🔧 **Backend API** | http://localhost:8000 | API REST Laravel |
+| 📖 **Documentación API** | http://localhost:8000/docs | Swagger/OpenAPI |
+| 🐘 **PostgreSQL** | localhost:5432 | Base de datos |
+
+### 🔐 Credenciales de Prueba
+
+\`\`\`
+Email:    admin@frenad.com
+Password: password
+\`\`\`
+
+---
+
+## 🛠️ Comandos Manuales (Opcional)
+
+Si prefieres ejecutar paso a paso o el script falla:
+
+### 1. Configuración Inicial
+
+\`\`\`bash
+# Clonar repositorio
+git clone https://github.com/Brayan-CF/Ferreteria_Frenad.git
+cd Ferreteria_Frenad
+
+# Crear archivos de configuración
+cp .env.example .env
+cp backend/.env.example backend/.env
+
+# Crear directorios necesarios
 mkdir -p database/backups database/pgadmin_data
+\`\`\`
 
-# 4. Levantar contenedores
+### 2. Construir y Levantar Contenedores
+
+\`\`\`bash
+# Construir imágenes y levantar servicios
 docker-compose up -d --build
 
-# 5. Esperar a que PostgreSQL esté listo (30 segundos aprox)
-sleep 30
+# Verificar contenedores
+docker-compose ps
 
-# 6. Ejecutar migraciones
+# Esperar ~30 segundos a que PostgreSQL inicie
+sleep 30
+\`\`\`
+
+### 3. Instalar Dependencias de Laravel
+
+\`\`\`bash
+# Instalar dependencias de Composer
+docker exec ferreteria_backend composer install --no-interaction --optimize-autoloader
+
+# Generar clave de aplicación
+docker exec ferreteria_backend php artisan key:generate
+
+# Limpiar caché
+docker exec ferreteria_backend php artisan config:clear
+docker exec ferreteria_backend php artisan cache:clear
+\`\`\`
+
+### 4. Ejecutar Migraciones de Base de Datos
+
+\`\`\`bash
+# Desde dentro del contenedor PostgreSQL
 docker exec -it ferreteria_postgres bash
 cd /database
 ./migrate.sh ferreteria_frenad postgres localhost 5432 frenad_postgres_2024
 exit
+\`\`\`
 
-# 7. Verificar servicios
-docker-compose ps
-```
+### 5. Verificar Instalación
 
-## 🌐 Acceso a Servicios
-
-| Servicio | URL | Credenciales |
-|----------|-----|--------------|
-| **Frontend** | http://localhost:8080 | - |
-| **Backend API** | http://localhost:8000 | - |
-| **PostgreSQL** | localhost:5432 | postgres / frenad_postgres_2024 |
-| **pgAdmin** (dev) | http://localhost:5050 | admin@frenad.local / admin123 |
-
-## 📖 Documentación Completa
-
-### Git y Workflow
-- **[docs/01-git/](docs/01-git/)** - Control de versiones y workflow profesional
-  - **[GIT_BEST_PRACTICES.md](docs/01-git/GIT_BEST_PRACTICES.md)** - Buenas prácticas de Git
-  - **[BRANCHES.md](docs/01-git/BRANCHES.md)** - Estrategia de ramas del proyecto
-
-### Base de Datos
-La documentación exhaustiva está en [`docs/04-database/`](docs/04-database/):
-- **[00-introduccion.md](docs/04-database/00-introduccion.md)** - Visión general del sistema
-- **[01-arquitectura.md](docs/04-database/01-arquitectura.md)** - Arquitectura de la base de datos
-- **[07-instalacion.md](docs/04-database/07-instalacion.md)** - Guía de instalación detallada
-- **[08-migracion.md](docs/04-database/08-migracion.md)** - Proceso de migraciones
-- **[10-testing.md](docs/04-database/10-testing.md)** - Guía de testing
-- **[importante.md](docs/04-database/importante.md)** - Documentación técnica académica (tablas, ER, normalización)
-
-### Deployment
-- **[docs/05-deployment/](docs/05-deployment/)** - Guías de despliegue
-  - **[comandos.md](docs/05-deployment/comandos.md)** - Comandos útiles de deployment
-  - **[CHECKLIST.md](docs/05-deployment/CHECKLIST.md)** - Checklist pre-deployment
-
-### Testing y Metodología
-- **[docs/05-testing/](docs/05-testing/)** - Metodología BDD/TDD completa
-  - **[00-workflow-maestro.md](docs/05-testing/00-workflow-maestro.md)** - Workflow maestro Git+BDD+TDD
-  - **[01-introduccion.md](docs/05-testing/01-introduccion.md)** - Introducción a BDD/TDD
-  - **[02-bdd-guide.md](docs/05-testing/02-bdd-guide.md)** - Guía completa BDD
-  - **[03-tdd-guide.md](docs/05-testing/03-tdd-guide.md)** - Guía completa TDD
-  - **[06-master-protection.md](docs/05-testing/06-master-protection.md)** - Protección de master y versionado
-  - **[07-develop-integration.md](docs/05-testing/07-develop-integration.md)** - Integración segura en develop
-
-### Features (Especificaciones BDD)
-- **[docs/06-features/](docs/06-features/)** - Especificaciones BDD por módulo
-  - **[01-auth.feature.md](docs/06-features/01-auth.feature.md)** - Autenticación (13 escenarios)
-
-### Módulos Documentados
-- **[02-modulos/01-auth.md](docs/04-database/02-modulos/01-auth.md)** - Autenticación y roles
-- **[02-modulos/02-productos.md](docs/04-database/02-modulos/02-productos.md)** - Catálogo de productos
-- **[02-modulos/03-inventario.md](docs/04-database/02-modulos/03-inventario.md)** - Control de stock
-- **[02-modulos/04-compras.md](docs/04-database/02-modulos/04-compras.md)** - Gestión de compras
-- **[02-modulos/05-ventas.md](docs/04-database/02-modulos/05-ventas.md)** - Punto de venta
-- **[02-modulos/06-clientes.md](docs/04-database/02-modulos/06-clientes.md)** - CRM y créditos
-- **[02-modulos/07-caja.md](docs/04-database/02-modulos/07-caja.md)** - Arqueo de caja
-- **[02-modulos/08-auditoria.md](docs/04-database/02-modulos/08-auditoria.md)** - Logs y auditoría
-
-## 🔧 Comandos Útiles
-
-### Docker
-
-```bash
-# Levantar todos los servicios
-docker-compose up -d
-
-# Levantar CON pgAdmin (perfil dev)
-docker-compose --profile dev up -d
-
+\`\`\`bash
 # Ver estado de contenedores
 docker-compose ps
 
+# Probar backend
+curl http://localhost:8000
+
+# Probar frontend
+curl http://localhost:8080
+\`\`\`
+
+---
+
+## 🧪 Pruebas
+
+El proyecto incluye **192 pruebas automatizadas** (Feature + Unit):
+
+\`\`\`bash
+# Ejecutar todas las pruebas
+docker exec ferreteria_backend php artisan test
+
+# Solo pruebas Feature (integración)
+docker exec ferreteria_backend php artisan test tests/Feature
+
+# Solo pruebas Unit (unitarias)
+docker exec ferreteria_backend php artisan test tests/Unit
+
+# Prueba específica
+docker exec ferreteria_backend php artisan test --filter=ProductoServiceTest
+\`\`\`
+
+### 📊 Cobertura por Módulo
+
+| Módulo | Feature Tests | Unit Tests | Total |
+|--------|--------------|------------|-------|
+| Autenticación | ✅ | ✅ | 15+ |
+| Productos | ✅ | ✅ | 30+ |
+| Inventario | ✅ | ✅ | 25+ |
+| Ventas | ✅ | ✅ | 35+ |
+| Compras | ✅ | ✅ | 25+ |
+| Clientes | ✅ | ✅ | 30+ |
+| Reportes | ✅ | ✅ | 20+ |
+| Caja | ✅ | ✅ | 12+ |
+
+> Ver resultados detallados en [\`docs/RESULTADOS-PRUEBAS.md\`](docs/RESULTADOS-PRUEBAS.md)
+
+---
+
+## 🔧 Comandos Docker Útiles
+
+\`\`\`bash
 # Ver logs en tiempo real
 docker-compose logs -f
 
@@ -154,38 +284,162 @@ docker-compose restart backend
 # Detener servicios (mantiene datos)
 docker-compose stop
 
-# Detener y eliminar contenedores (mantiene volúmenes)
+# Detener y eliminar contenedores
 docker-compose down
 
-# Detener y eliminar TODO incluidos volúmenes (⚠️ CUIDADO)
+# ⚠️ Eliminar TODO incluyendo volúmenes (CUIDADO)
 docker-compose down -v
-
-# Acceder a un contenedor
-docker exec -it ferreteria_postgres bash
-docker exec -it ferreteria_backend bash
-
-# Reconstruir contenedores
-docker-compose up --build
 
 # Acceder al contenedor del backend
 docker exec -it ferreteria_backend sh
 
 # Acceder a PostgreSQL
 docker exec -it ferreteria_postgres psql -U postgres -d ferreteria_frenad
-```
+\`\`\`
 
-## Estructura del proyecto
-```
-FerreteriaFrenetProyecto/
-├── backend/          # Laravel API
-├── frontend/         # Interfaz POS
-├── database/         # Scripts SQL
-└── docs/             # Documentación
-```
+---
 
-## Tecnologías
+## 🐘 pgAdmin (Opcional)
 
-- Backend: Laravel 10 + PHP 8.2
-- Frontend: HTML5 + JavaScript + Bootstrap
-- Base de Datos: PostgreSQL 15
-- Contenedores: Docker + Docker Compose
+Para gestionar la base de datos visualmente:
+
+\`\`\`bash
+# Levantar pgAdmin
+docker-compose --profile dev up -d pgadmin
+\`\`\`
+
+| Campo | Valor |
+|-------|-------|
+| URL | http://localhost:5050 |
+| Email | admin@frenad.local |
+| Password | admin123 |
+
+---
+
+## 📁 Estructura del Proyecto
+
+\`\`\`
+Ferreteria_Frenad/
+│
+├── 📂 backend/                 # API Laravel
+│   ├── app/
+│   │   └── Modules/            # Auth, Product, Sales, Inventory, etc.
+│   ├── tests/
+│   │   ├── Feature/            # Tests de endpoints (caja negra)
+│   │   └── Unit/               # Tests de servicios (caja blanca)
+│   ├── Dockerfile
+│   └── composer.json
+│
+├── 📂 frontend/                # Interfaz web (Nginx)
+│   ├── js/
+│   ├── css/
+│   ├── *.html
+│   ├── Dockerfile
+│   └── nginx.conf
+│
+├── 📂 database/                # Scripts SQL
+│   ├── 00_extensions/          # Extensiones PostgreSQL
+│   ├── 01_tables/              # Definición de tablas
+│   ├── 02_indixes/             # Índices
+│   ├── 03_functions/           # Funciones SQL
+│   ├── 04_triggers/            # Triggers
+│   ├── 05_views/               # Vistas
+│   ├── 06_seeders/             # Datos iniciales
+│   ├── 07_foreing_keys/        # Claves foráneas
+│   ├── migrate.sh              # ⚡ Script de migración
+│   └── init-volume.sh          # Inicializar volumen
+│
+├── 📂 docs/                    # Documentación completa
+│   ├── 01-git/
+│   ├── 02-arquitectura/
+│   ├── 03-api/
+│   ├── 04-database/
+│   ├── 05-testing/
+│   └── RESULTADOS-PRUEBAS.md
+│
+├── 📄 docker-compose.yml       # Orquestación de servicios
+├── 📄 start.sh                 # ⚡ Instalación completa
+├── 📄 start-docker.sh          # ⚡ Levantar servicios
+├── 📄 .env.example             # Variables de entorno (plantilla)
+├── 📄 Comandos_Pruebas.md      # Referencia de comandos de testing
+└── 📄 README.md                # Este archivo
+\`\`\`
+
+---
+
+## 📖 Documentación
+
+| Categoría | Ruta | Descripción |
+|-----------|------|-------------|
+| 📊 Base de Datos | \`docs/04-database/\` | Arquitectura, módulos, ERD |
+| 🧪 Testing | \`docs/05-testing/\` | Metodología BDD/TDD |
+| 🚀 Deployment | \`docs/05-deployment/\` | Guías de despliegue |
+| 📋 Features | \`docs/06-features/\` | Especificaciones BDD |
+| ✅ Resultados | \`docs/RESULTADOS-PRUEBAS.md\` | Resultados de pruebas |
+
+---
+
+## ❓ Solución de Problemas
+
+### El backend no responde
+
+\`\`\`bash
+# Ver logs del backend
+docker-compose logs backend
+
+# Reiniciar backend
+docker-compose restart backend
+\`\`\`
+
+### Error de conexión a PostgreSQL
+
+\`\`\`bash
+# Verificar que PostgreSQL esté corriendo
+docker exec ferreteria_postgres pg_isready
+
+# Ver logs de PostgreSQL
+docker-compose logs postgres_ferreteria
+\`\`\`
+
+### Las migraciones fallan
+
+\`\`\`bash
+# Ejecutar migraciones manualmente
+docker exec -it ferreteria_postgres bash
+cd /database
+./migrate.sh ferreteria_frenad postgres localhost 5432 frenad_postgres_2024
+\`\`\`
+
+### Reinstalar desde cero
+
+\`\`\`bash
+# Eliminar todo y empezar de nuevo
+docker-compose down -v
+./start.sh
+\`\`\`
+
+---
+
+## 👥 Equipo de Desarrollo
+
+| Rol | Nombre |
+|-----|--------|
+| 👨‍💻 Desarrollador | Brayan CF |
+| 🏫 Institución | UNIFRANZ - El Alto |
+| 📚 Materia | Proyecto Integrador II |
+| 📅 Gestión | 2025 - Sexto Semestre |
+
+---
+
+## 📄 Licencia
+
+Este proyecto fue desarrollado con fines académicos para la Universidad Franz Tamayo (UNIFRANZ).
+
+---
+
+<p align="center">
+  <strong>🏪 Ferretería FRENAD</strong><br>
+  <em>Sistema de gestión integral para ferreterías</em><br><br>
+  <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=flat-square" alt="Made with love"/>
+  <img src="https://img.shields.io/badge/UNIFRANZ-El%20Alto-blue?style=flat-square" alt="UNIFRANZ"/>
+</p>
