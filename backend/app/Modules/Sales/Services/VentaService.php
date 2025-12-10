@@ -328,4 +328,76 @@ class VentaService
             ->orderBy('fecha_venta', 'desc')
             ->get();
     }
+
+    /**
+     * Ventas diarias agrupadas por fecha
+     */
+    public function ventasDiarias(array $filters = []): array
+    {
+        $query = Venta::completadas();
+
+        if (!empty($filters['fecha_inicio']) && !empty($filters['fecha_fin'])) {
+            $query->entreFechas($filters['fecha_inicio'], $filters['fecha_fin']);
+        } else {
+            $query->whereDate('fecha_venta', '>=', now()->subDays(7));
+        }
+
+        return $query->select(
+                DB::raw("DATE(fecha_venta) as fecha"),
+                DB::raw("SUM(total) as total"),
+                DB::raw("COUNT(*) as cantidad")
+            )
+            ->groupBy(DB::raw("DATE(fecha_venta)"))
+            ->orderBy('fecha')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Top productos más vendidos
+     */
+    public function topProductos(array $filters = []): array
+    {
+        $limit = $filters['limit'] ?? 10;
+
+        $query = DetalleVenta::join('ventas', 'detalle_ventas.venta_id', '=', 'ventas.id')
+            ->join('productos', 'detalle_ventas.producto_id', '=', 'productos.id')
+            ->where('ventas.estado', 'completada');
+
+        if (!empty($filters['fecha_inicio']) && !empty($filters['fecha_fin'])) {
+            $query->whereBetween('ventas.fecha_venta', [$filters['fecha_inicio'], $filters['fecha_fin']]);
+        }
+
+        return $query->select(
+                'productos.nombre',
+                DB::raw("SUM(detalle_ventas.cantidad) as cantidad"),
+                DB::raw("SUM(detalle_ventas.subtotal) as total")
+            )
+            ->groupBy('productos.id', 'productos.nombre')
+            ->orderByDesc('cantidad')
+            ->limit($limit)
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Ventas por método de pago
+     */
+    public function porMetodoPago(array $filters = []): array
+    {
+        $query = Venta::completadas();
+
+        if (!empty($filters['fecha_inicio']) && !empty($filters['fecha_fin'])) {
+            $query->entreFechas($filters['fecha_inicio'], $filters['fecha_fin']);
+        }
+
+        return $query->select(
+                'metodo_pago',
+                DB::raw("COUNT(*) as cantidad"),
+                DB::raw("SUM(total) as total")
+            )
+            ->groupBy('metodo_pago')
+            ->get()
+            ->toArray();
+    }
 }

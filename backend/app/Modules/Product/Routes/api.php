@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Product\Controllers\ProductoController;
 use Modules\Product\Controllers\CategoriaController;
 use Modules\Product\Controllers\MarcaController;
+use Modules\Product\Controllers\UnidadMedidaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Marcas
     Route::apiResource('marcas', MarcaController::class);
+
+    // Unidades de Medida
+    Route::apiResource('unidades', UnidadMedidaController::class);
 });

@@ -125,4 +125,46 @@ public function ventasHoy(): JsonResponse
         return error_response($e->getMessage());
     }
 }
+
+/**
+ * Ventas diarias (para gráfico)
+ */
+public function ventasDiarias(Request $request): JsonResponse
+{
+    try {
+        $filters = $request->only(['fecha_inicio', 'fecha_fin']);
+        $data = $this->ventaService->ventasDiarias($filters);
+        return success_response($data);
+    } catch (Exception $e) {
+        return error_response($e->getMessage());
+    }
+}
+
+/**
+ * Top productos más vendidos
+ */
+public function topProductos(Request $request): JsonResponse
+{
+    try {
+        $filters = $request->only(['fecha_inicio', 'fecha_fin', 'limit']);
+        $data = $this->ventaService->topProductos($filters);
+        return success_response($data);
+    } catch (Exception $e) {
+        return error_response($e->getMessage());
+    }
+}
+
+/**
+ * Ventas por método de pago
+ */
+public function porMetodoPago(Request $request): JsonResponse
+{
+    try {
+        $filters = $request->only(['fecha_inicio', 'fecha_fin']);
+        $data = $this->ventaService->porMetodoPago($filters);
+        return success_response($data);
+    } catch (Exception $e) {
+        return error_response($e->getMessage());
+    }
+}
 }

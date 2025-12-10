@@ -15,10 +15,12 @@ class UnidadMedida extends Model
         'nombre',
         'abreviatura',
         'tipo',
+        'activo',
     ];
 
     protected $casts = [
         'creado_en' => 'datetime',
+        'activo' => 'boolean',
     ];
 
     const CREATED_AT = 'creado_en';

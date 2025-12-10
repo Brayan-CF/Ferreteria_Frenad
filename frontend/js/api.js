@@ -411,6 +411,34 @@ class APIClient {
   }
 
   // ========================================
+  // ENDPOINTS ESPECÍFICOS - ALMACENES
+  // ========================================
+
+  async getWarehouses(params = {}) {
+    return this.get('/inventory/almacenes', params);
+  }
+
+  async getWarehouse(id) {
+    return this.get(`/inventory/almacenes/${id}`);
+  }
+
+  async createWarehouse(data) {
+    return this.post('/inventory/almacenes', data);
+  }
+
+  async updateWarehouse(id, data) {
+    return this.put(`/inventory/almacenes/${id}`, data);
+  }
+
+  async deleteWarehouse(id) {
+    return this.delete(`/inventory/almacenes/${id}`);
+  }
+
+  async getWarehousesList() {
+    return this.get('/inventory/almacenes/list');
+  }
+
+  // ========================================
   // ENDPOINTS ESPECÍFICOS - CLIENTES
   // ========================================
 
@@ -556,6 +584,19 @@ class APIClient {
 
   async getSalesStats() {
     return this.get('/sales/ventas/statistics');
+  }
+
+  // Reportes directos de ventas
+  async getDailySales(params = {}) {
+    return this.get('/sales/ventas/daily', params);
+  }
+
+  async getTopProducts(params = {}) {
+    return this.get('/sales/ventas/top-products', params);
+  }
+
+  async getSalesByPaymentMethod(params = {}) {
+    return this.get('/sales/ventas/by-payment-method', params);
   }
 
   // ========================================

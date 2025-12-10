@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clientes - Ferreteria Frenad</title>
+  <link rel="stylesheet" href="css/variables.css?v=2.0.0">
+  <link rel="stylesheet" href="css/reset.css?v=2.0.0">
+  <link rel="stylesheet" href="css/components.css?v=2.0.0">
+  <link rel="stylesheet" href="css/layout.css?v=2.0.0">
+</head>
+<body>
+  <div class="app-container">
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">F</div>
+        <div class="sidebar-brand">
+          <div class="sidebar-title">Ferreteria Frenad</div>
+          <div class="sidebar-subtitle">Sistema POS</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar" id="user-avatar"></div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="user-name">Usuario</div>
+            <div class="sidebar-user-role" id="user-role">Rol</div>
+          </div>
+          <button type="button" class="btn btn-icon" id="logout-btn" title="Cerrar sesion">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="header-toggle" id="sidebar-toggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <h1 class="header-title">Clientes</h1>
+        </div>
+        <div class="header-right"><div class="theme-toggle"></div></div>
+      </header>
+      <div class="content-area">
+        <div class="content-header">
+          <div class="content-header-left">
+            <input type="text" id="search-input" class="form-control" placeholder="Buscar cliente..." style="width: 300px;">
+          </div>
+          <div class="content-header-right">
+            <button type="button" class="btn btn-primary" id="btn-nuevo">+ Nuevo Cliente</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>NIT/CI</th>
+                  <th>Telefono</th>
+                  <th>Email</th>
+                  <th>Tipo</th>
+                  <th>Limite Credito</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="clientes-body">
+                <tr><td colspan="8" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="modal-overlay" id="modal-cliente">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Nuevo Cliente</h3>
+        <button type="button" class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-cliente">
+          <input type="hidden" id="cliente-id">
+          <div class="form-group">
+            <label class="form-label">Nombre Completo *</label>
+            <input type="text" id="cliente-nombre" class="form-control" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">NIT</label>
+              <input type="text" id="cliente-nit" class="form-control" placeholder="Opcional">
+            </div>
+            <div class="form-group">
+              <label class="form-check" style="margin-top: 28px;">
+                <input type="checkbox" id="cliente-frecuente">
+                <span>Cliente Frecuente</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Telefono</label>
+              <input type="text" id="cliente-telefono" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="cliente-email" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Direccion</label>
+            <input type="text" id="cliente-direccion" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Limite de Credito (Bs.)</label>
+            <input type="number" id="cliente-limite" class="form-control" step="0.01" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-check">
+              <input type="checkbox" id="cliente-activo" checked>
+              <span>Cliente activo</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="btn-cancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/config.js?v=1.0.5"></script>
+  <script src="js/api.js?v=1.0.5"></script>
+  <script src="js/auth.js?v=1.0.5"></script>
+  <script src="js/utils.js?v=1.0.5"></script>
+  <script src="js/theme.js?v=1.0.5"></script>
+  <script>
+    var paginaActual = 1;
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!auth.requireAuth()) return;
+      initUI();
+      cargarClientes();
+    });
+
+    function initUI() {
+      var userName = auth.getUserName();
+      var userRole = auth.getUserRole();
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-role').textContent = userRole;
+      document.getElementById('user-avatar').textContent = auth.getUserInitials();
+      var navItems = {
+        dashboard: { icon: 'D', text: 'Dashboard', href: 'dashboard.html' },
+        pos: { icon: 'P', text: 'Punto de Venta', href: 'pos.html' },
+        productos: { icon: 'Pr', text: 'Productos', href: 'productos.html' },
+        inventario: { icon: 'I', text: 'Inventario', href: 'inventario.html' },
+        clientes: { icon: 'C', text: 'Clientes', href: 'clientes.html' },
+        compras: { icon: 'Co', text: 'Compras', href: 'compras.html' },
+        reportes: { icon: 'R', text: 'Reportes', href: 'reportes.html' }
+      };
+      var permissions = CONFIG.PERMISSIONS[userRole] || [];
+      var navHTML = '<div class="nav-section"><div class="nav-section-title">Menu</div>';
+      for (var i = 0; i < permissions.length; i++) {
+        var page = permissions[i];
+        if (navItems[page]) {
+          var item = navItems[page];
+          var isActive = page === 'clientes' ? 'active' : '';
+          navHTML += '<a href="' + item.href + '" class="nav-item ' + isActive + '"><span class="nav-item-icon">' + item.icon + '</span><span>' + item.text + '</span></a>';
+        }
+      }
+      navHTML += '</div>';
+      document.getElementById('sidebar-nav').innerHTML = navHTML;
+      document.getElementById('search-input').onkeypress = function(e) { if (e.key === 'Enter') cargarClientes(); };
+      document.getElementById('btn-nuevo').onclick = abrirModalNuevo;
+      document.getElementById('modal-close').onclick = cerrarModal;
+      document.getElementById('btn-cancelar').onclick = cerrarModal;
+      document.getElementById('btn-guardar').onclick = guardarCliente;
+      document.getElementById('logout-btn').onclick = function() { if (confirm('Cerrar sesion?')) auth.logout(); };
+      document.getElementById('sidebar-toggle').onclick = function() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar-overlay').classList.toggle('active');
+      };
+      document.getElementById('sidebar-overlay').onclick = function() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').classList.remove('active');
+      };
+    }
+
+    function cargarClientes() {
+      var tbody = document.getElementById('clientes-body');
+      tbody.innerHTML = '<tr><td colspan="8" class="text-center">Cargando...</td></tr>';
+      var search = document.getElementById('search-input').value;
+      api.get('/customer/clientes', { search: search, page: paginaActual, per_page: 15 }).then(function(res) {
+        if (res.success && res.data) {
+          var clientes = res.data.data || res.data;
+          if (!clientes || clientes.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center">No hay clientes</td></tr>';
+            return;
+          }
+          var html = '';
+          for (var i = 0; i < clientes.length; i++) {
+            var c = clientes[i];
+            var estado = c.activo ? '<span class="badge badge-success">Activo</span>' : '<span class="badge badge-danger">Inactivo</span>';
+            var tipo = c.es_frecuente ? 'Frecuente' : 'Normal';
+            html += '<tr>';
+            html += '<td>' + escapeHtml(c.nombre_completo) + '</td>';
+            html += '<td>' + escapeHtml(c.nit || '-') + '</td>';
+            html += '<td>' + escapeHtml(c.telefono || '-') + '</td>';
+            html += '<td>' + escapeHtml(c.email || '-') + '</td>';
+            html += '<td>' + tipo + '</td>';
+            html += '<td>Bs. ' + parseFloat(c.limite_credito || 0).toFixed(2) + '</td>';
+            html += '<td>' + estado + '</td>';
+            html += '<td>';
+            html += '<button class="btn btn-sm btn-outline" onclick="editarCliente(' + c.id + ')">Editar</button> ';
+            html += '<button class="btn btn-sm btn-danger" onclick="eliminarCliente(' + c.id + ')">Eliminar</button>';
+            html += '</td></tr>';
+          }
+          tbody.innerHTML = html;
+          renderPaginacion(res.data);
+        } else {
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center">Error al cargar</td></tr>';
+        }
+      }).catch(function() {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">Error de conexion</td></tr>';
+      });
+    }
+
+    function renderPaginacion(data) {
+      var pagination = document.getElementById('pagination');
+      if (!data.last_page || data.last_page <= 1) { pagination.innerHTML = ''; return; }
+      var html = '';
+      for (var i = 1; i <= data.last_page; i++) {
+        html += '<button class="btn btn-sm ' + (i === data.current_page ? 'btn-primary' : 'btn-outline') + '" onclick="irPagina(' + i + ')">' + i + '</button> ';
+      }
+      pagination.innerHTML = html;
+    }
+
+    function irPagina(num) { paginaActual = num; cargarClientes(); }
+
+    function abrirModalNuevo() {
+      document.getElementById('modal-title').textContent = 'Nuevo Cliente';
+      document.getElementById('cliente-id').value = '';
+      document.getElementById('form-cliente').reset();
+      document.getElementById('cliente-activo').checked = true;
+      document.getElementById('modal-cliente').classList.add('active');
+    }
+
+    function cerrarModal() { document.getElementById('modal-cliente').classList.remove('active'); }
+
+    function editarCliente(id) {
+      api.get('/customer/clientes/' + id).then(function(res) {
+        if (res.success && res.data) {
+          var c = res.data;
+          document.getElementById('modal-title').textContent = 'Editar Cliente';
+          document.getElementById('cliente-id').value = c.id;
+          document.getElementById('cliente-nombre').value = c.nombre_completo || '';
+          document.getElementById('cliente-nit').value = c.nit || '';
+          document.getElementById('cliente-frecuente').checked = c.es_frecuente || false;
+          document.getElementById('cliente-telefono').value = c.telefono || '';
+          document.getElementById('cliente-email').value = c.email || '';
+          document.getElementById('cliente-direccion').value = c.direccion || '';
+          document.getElementById('cliente-limite').value = c.limite_credito || 0;
+          document.getElementById('cliente-activo').checked = c.activo;
+          document.getElementById('modal-cliente').classList.add('active');
+        }
+      });
+    }
+
+    function guardarCliente() {
+      var id = document.getElementById('cliente-id').value;
+      var data = {
+        nombre_completo: document.getElementById('cliente-nombre').value,
+        nit: document.getElementById('cliente-nit').value || null,
+        es_frecuente: document.getElementById('cliente-frecuente').checked,
+        telefono: document.getElementById('cliente-telefono').value || null,
+        email: document.getElementById('cliente-email').value || null,
+        direccion: document.getElementById('cliente-direccion').value || null,
+        limite_credito: parseFloat(document.getElementById('cliente-limite').value) || 0,
+        activo: document.getElementById('cliente-activo').checked
+      };
+      var btn = document.getElementById('btn-guardar');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+      var promise = id ? api.put('/customer/clientes/' + id, data) : api.post('/customer/clientes', data);
+      promise.then(function(res) {
+        if (res.success) {
+          Utils.showSuccess(id ? 'Cliente actualizado' : 'Cliente creado');
+          cerrarModal();
+          cargarClientes();
+        } else {
+          Utils.showError(res.message || 'Error al guardar');
+        }
+      }).catch(function() {
+        Utils.showError('Error de conexion');
+      }).finally(function() {
+        btn.disabled = false;
+        btn.textContent = 'Guardar';
+      });
+    }
+
+    function eliminarCliente(id) {
+      if (!confirm('Eliminar este cliente?')) return;
+      api.delete('/customer/clientes/' + id).then(function(res) {
+        if (res.success) {
+          Utils.showSuccess('Cliente eliminado');
+          cargarClientes();
+        } else {
+          Utils.showError(res.message || 'Error al eliminar');
+        }
+      });
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

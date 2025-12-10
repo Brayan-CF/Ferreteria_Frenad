@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario - Ferreteria Frenad</title>
+  <link rel="stylesheet" href="css/variables.css?v=2.0.0">
+  <link rel="stylesheet" href="css/reset.css?v=2.0.0">
+  <link rel="stylesheet" href="css/components.css?v=2.0.0">
+  <link rel="stylesheet" href="css/layout.css?v=2.0.0">
+</head>
+<body>
+  <div class="app-container">
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">F</div>
+        <div class="sidebar-brand">
+          <div class="sidebar-title">Ferreteria Frenad</div>
+          <div class="sidebar-subtitle">Sistema POS</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar" id="user-avatar"></div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="user-name">Usuario</div>
+            <div class="sidebar-user-role" id="user-role">Rol</div>
+          </div>
+          <button type="button" class="btn btn-icon" id="logout-btn" title="Cerrar sesion">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="header-toggle" id="sidebar-toggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <h1 class="header-title">Inventario</h1>
+        </div>
+        <div class="header-right"><div class="theme-toggle"></div></div>
+      </header>
+      <div class="content-area">
+        <div class="stats-grid" style="margin-bottom: var(--spacing-lg);">
+          <div class="stat-card"><div class="stat-value" id="total-productos">0</div><div class="stat-label">Productos</div></div>
+          <div class="stat-card warning"><div class="stat-value" id="stock-bajo">0</div><div class="stat-label">Stock Bajo</div></div>
+          <div class="stat-card danger"><div class="stat-value" id="sin-stock">0</div><div class="stat-label">Sin Stock</div></div>
+          <div class="stat-card success"><div class="stat-value" id="valor-total">Bs. 0</div><div class="stat-label">Valor Inventario</div></div>
+        </div>
+        <div class="content-header">
+          <div class="content-header-left">
+            <input type="text" id="search-input" class="form-control" placeholder="Buscar producto..." style="width: 250px;">
+            <select id="almacen-filter" class="form-control" style="width: 150px;">
+              <option value="">Todos</option>
+              <option value="1">Bodega</option>
+              <option value="2">Mostrador</option>
+            </select>
+            <select id="stock-filter" class="form-control" style="width: 150px;">
+              <option value="">Todo el stock</option>
+              <option value="bajo">Stock bajo</option>
+              <option value="sin">Sin stock</option>
+            </select>
+          </div>
+          <div class="content-header-right">
+            <button type="button" class="btn btn-primary" id="btn-ajuste">+ Ajuste de Stock</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>SKU</th>
+                  <th>Almacen</th>
+                  <th>Stock Actual</th>
+                  <th>Stock Minimo</th>
+                  <th>Estado</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody id="inventario-body">
+                <tr><td colspan="7" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="modal-overlay" id="modal-ajuste">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Ajuste de Stock</h3>
+        <button type="button" class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-ajuste">
+          <div class="form-group">
+            <label class="form-label">Producto *</label>
+            <select id="ajuste-producto" class="form-control" required></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Almacen *</label>
+            <select id="ajuste-almacen" class="form-control" required>
+              <option value="1">Bodega Principal</option>
+              <option value="2">Mostrador Venta</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nueva Cantidad *</label>
+            <input type="number" id="ajuste-cantidad" class="form-control" min="0" step="0.01" required placeholder="Cantidad final despues del ajuste">
+            <small style="color: var(--text-secondary);">Ingresa la cantidad que debe quedar en inventario</small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Razon del Ajuste *</label>
+            <textarea id="ajuste-motivo" class="form-control" rows="2" placeholder="Motivo obligatorio del ajuste..." required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="btn-cancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-guardar">Aplicar Ajuste</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/config.js?v=1.0.5"></script>
+  <script src="js/api.js?v=1.0.5"></script>
+  <script src="js/auth.js?v=1.0.5"></script>
+  <script src="js/utils.js?v=1.0.5"></script>
+  <script src="js/theme.js?v=1.0.5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!auth.requireAuth()) return;
+      initUI();
+      cargarProductosSelect();
+      cargarInventario();
+      cargarEstadisticas();
+    });
+
+    function initUI() {
+      var userName = auth.getUserName();
+      var userRole = auth.getUserRole();
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-role').textContent = userRole;
+      document.getElementById('user-avatar').textContent = auth.getUserInitials();
+      var navItems = {
+        dashboard: { icon: 'D', text: 'Dashboard', href: 'dashboard.html' },
+        pos: { icon: 'P', text: 'Punto de Venta', href: 'pos.html' },
+        productos: { icon: 'Pr', text: 'Productos', href: 'productos.html' },
+        inventario: { icon: 'I', text: 'Inventario', href: 'inventario.html' },
+        clientes: { icon: 'C', text: 'Clientes', href: 'clientes.html' },
+        compras: { icon: 'Co', text: 'Compras', href: 'compras.html' },
+        reportes: { icon: 'R', text: 'Reportes', href: 'reportes.html' }
+      };
+      var permissions = CONFIG.PERMISSIONS[userRole] || [];
+      var navHTML = '<div class="nav-section"><div class="nav-section-title">Menu</div>';
+      for (var i = 0; i < permissions.length; i++) {
+        var page = permissions[i];
+        if (navItems[page]) {
+          var item = navItems[page];
+          var isActive = page === 'inventario' ? 'active' : '';
+          navHTML += '<a href="' + item.href + '" class="nav-item ' + isActive + '"><span class="nav-item-icon">' + item.icon + '</span><span>' + item.text + '</span></a>';
+        }
+      }
+      navHTML += '</div>';
+      document.getElementById('sidebar-nav').innerHTML = navHTML;
+      document.getElementById('search-input').onkeypress = function(e) { if (e.key === 'Enter') cargarInventario(); };
+      document.getElementById('almacen-filter').onchange = cargarInventario;
+      document.getElementById('stock-filter').onchange = cargarInventario;
+      document.getElementById('btn-ajuste').onclick = abrirModalAjuste;
+      document.getElementById('modal-close').onclick = cerrarModal;
+      document.getElementById('btn-cancelar').onclick = cerrarModal;
+      document.getElementById('btn-guardar').onclick = guardarAjuste;
+      document.getElementById('logout-btn').onclick = function() { if (confirm('Cerrar sesion?')) auth.logout(); };
+      document.getElementById('sidebar-toggle').onclick = function() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebar-overlay').classList.toggle('active');
+      };
+      document.getElementById('sidebar-overlay').onclick = function() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').classList.remove('active');
+      };
+    }
+
+    function cargarProductosSelect() {
+      api.get('/product/productos', { per_page: 200, activo: 1 }).then(function(res) {
+        if (res.success && res.data) {
+          var productos = res.data.data || res.data;
+          var select = document.getElementById('ajuste-producto');
+          select.innerHTML = '<option value="">Seleccionar producto...</option>';
+          for (var i = 0; i < productos.length; i++) {
+            select.innerHTML += '<option value="' + productos[i].id + '">' + escapeHtml(productos[i].nombre) + '</option>';
+          }
+        }
+      });
+    }
+
+    function cargarEstadisticas() {
+      api.get('/inventory/inventario/statistics').then(function(res) {
+        if (res.success && res.data) {
+          var stats = res.data;
+          document.getElementById('total-productos').textContent = stats.total_productos || 0;
+          document.getElementById('stock-bajo').textContent = stats.productos_stock_bajo || 0;
+          document.getElementById('sin-stock').textContent = stats.productos_sin_stock || 0;
+          document.getElementById('valor-total').textContent = 'Bs. ' + parseFloat(stats.valor_total_inventario || 0).toFixed(2);
+        }
+      });
+    }
+
+    function cargarInventario() {
+      var tbody = document.getElementById('inventario-body');
+      tbody.innerHTML = '<tr><td colspan="7" class="text-center">Cargando...</td></tr>';
+      var params = { per_page: 100 };
+      var search = document.getElementById('search-input').value;
+      var almacen = document.getElementById('almacen-filter').value;
+      var stockFilter = document.getElementById('stock-filter').value;
+      if (search) params.search = search;
+      if (almacen) params.almacen_id = almacen;
+      if (stockFilter === 'bajo') params.stock_bajo = 1;
+      if (stockFilter === 'sin') params.sin_stock = 1;
+      api.get('/inventory/inventario', params).then(function(res) {
+        if (res.success && res.data) {
+          var inventario = res.data.data || res.data;
+          if (!inventario || inventario.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center">No hay registros</td></tr>';
+            return;
+          }
+          var html = '';
+          for (var i = 0; i < inventario.length; i++) {
+            var inv = inventario[i];
+            var productoNombre = inv.producto ? inv.producto.nombre : 'Producto ' + inv.producto_id;
+            var productoSku = inv.producto ? inv.producto.sku : '-';
+            var almacenNombre = inv.almacen ? inv.almacen.nombre : 'Almacen ' + inv.almacen_id;
+            var stockActual = parseFloat(inv.cantidad_actual || 0);
+            var stockMinimo = parseFloat(inv.stock_minimo || 0);
+            var precioCompra = inv.producto ? parseFloat(inv.producto.precio_compra || 0) : 0;
+            var valor = (stockActual * precioCompra).toFixed(2);
+            var estadoClass = 'badge-success';
+            var estadoText = 'Normal';
+            if (stockActual <= 0) { estadoClass = 'badge-danger'; estadoText = 'Sin Stock'; }
+            else if (stockActual <= stockMinimo) { estadoClass = 'badge-warning'; estadoText = 'Stock Bajo'; }
+            html += '<tr>';
+            html += '<td>' + escapeHtml(productoNombre) + '</td>';
+            html += '<td>' + escapeHtml(productoSku) + '</td>';
+            html += '<td>' + escapeHtml(almacenNombre) + '</td>';
+            html += '<td>' + stockActual + '</td>';
+            html += '<td>' + stockMinimo + '</td>';
+            html += '<td><span class="badge ' + estadoClass + '">' + estadoText + '</span></td>';
+            html += '<td>Bs. ' + valor + '</td>';
+            html += '</tr>';
+          }
+          tbody.innerHTML = html;
+        } else {
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center">Error al cargar</td></tr>';
+        }
+      }).catch(function() {
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center">Error de conexion</td></tr>';
+      });
+    }
+
+    function abrirModalAjuste() {
+      document.getElementById('form-ajuste').reset();
+      document.getElementById('modal-ajuste').classList.add('active');
+    }
+
+    function cerrarModal() { document.getElementById('modal-ajuste').classList.remove('active'); }
+
+    function guardarAjuste() {
+      var cantidad = parseFloat(document.getElementById('ajuste-cantidad').value);
+      var razon = document.getElementById('ajuste-motivo').value;
+      
+      var data = {
+        producto_id: parseInt(document.getElementById('ajuste-producto').value),
+        almacen_id: parseInt(document.getElementById('ajuste-almacen').value),
+        nueva_cantidad: cantidad,
+        razon: razon
+      };
+      if (!data.producto_id || data.nueva_cantidad === undefined || isNaN(data.nueva_cantidad) || !data.razon) {
+        Utils.showError('Completa los campos requeridos (incluye motivo)');
+        return;
+      }
+      var btn = document.getElementById('btn-guardar');
+      btn.disabled = true;
+      btn.textContent = 'Aplicando...';
+      api.post('/inventory/inventario/ajustar', data).then(function(res) {
+        if (res.success) {
+          Utils.showSuccess('Ajuste aplicado correctamente');
+          cerrarModal();
+          cargarInventario();
+          cargarEstadisticas();
+        } else {
+          Utils.showError(res.message || 'Error al aplicar ajuste');
+        }
+      }).catch(function() {
+        Utils.showError('Error de conexion');
+      }).finally(function() {
+        btn.disabled = false;
+        btn.textContent = 'Aplicar Ajuste';
+      });
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

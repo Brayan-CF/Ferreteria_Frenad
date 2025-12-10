@@ -127,23 +127,31 @@ class Inventario extends Model
     }
 
     /**
-     * Aumentar stock
+     * Aumentar stock (para claves compuestas)
      */
     public function aumentarStock($cantidad)
     {
-        $this->cantidad_actual += $cantidad;
-        return $this->save();
+        return self::where('producto_id', $this->producto_id)
+            ->where('almacen_id', $this->almacen_id)
+            ->update([
+                'cantidad_actual' => $this->cantidad_actual + $cantidad,
+                'ultima_actualizacion' => now()
+            ]);
     }
 
     /**
-     * Reducir stock
+     * Reducir stock (para claves compuestas)
      */
     public function reducirStock($cantidad)
     {
         if ($this->cantidad_actual < $cantidad) {
             throw new \Exception('Stock insuficiente');
         }
-        $this->cantidad_actual -= $cantidad;
-        return $this->save();
+        return self::where('producto_id', $this->producto_id)
+            ->where('almacen_id', $this->almacen_id)
+            ->update([
+                'cantidad_actual' => $this->cantidad_actual - $cantidad,
+                'ultima_actualizacion' => now()
+            ]);
     }
 }

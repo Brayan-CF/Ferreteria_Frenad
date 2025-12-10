@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Inventory\Controllers\InventarioController;
 use Modules\Inventory\Controllers\MovimientoInventarioController;
+use Modules\Inventory\Controllers\AlmacenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,14 @@ use Modules\Inventory\Controllers\MovimientoInventarioController;
 
 Route::middleware('auth:sanctum')->group(function () {
     
+    // Almacenes
+    Route::get('/almacenes', [AlmacenController::class, 'index']);
+    Route::get('/almacenes/list', [AlmacenController::class, 'list']);
+    Route::get('/almacenes/{id}', [AlmacenController::class, 'show']);
+    Route::post('/almacenes', [AlmacenController::class, 'store']);
+    Route::put('/almacenes/{id}', [AlmacenController::class, 'update']);
+    Route::delete('/almacenes/{id}', [AlmacenController::class, 'destroy']);
+
     // Inventario
     Route::get('/inventario', [InventarioController::class, 'index']);
     Route::get('/inventario/statistics', [InventarioController::class, 'statistics']);
