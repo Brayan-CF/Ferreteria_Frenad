@@ -28,6 +28,23 @@ Este directorio contiene toda la documentación relacionada con la API REST del 
 - [`13-convenciones-api.md`](13-convenciones-api.md) - Estándares de respuestas API
 - [`14-manejo-errores.md`](14-manejo-errores.md) - Manejo de errores y excepciones
 - [`15-testing-api.md`](15-testing-api.md) - Testing de endpoints (TDD)
+- [`16-scribe-documentacion.md`](16-scribe-documentacion.md) - **Documentación automática (Scribe)**
+
+---
+
+## 📖 Documentación Interactiva (Scribe)
+
+> **URL:** http://localhost:8000/docs
+
+La API cuenta con documentación automática generada con **Scribe 5.6.0**:
+
+| Recurso | URL |
+|---------|-----|
+| Documentación HTML | http://localhost:8000/docs |
+| Colección Postman | http://localhost:8000/docs.postman |
+| OpenAPI/Swagger | http://localhost:8000/docs.openapi |
+
+Ver más detalles en: [`16-scribe-documentacion.md`](16-scribe-documentacion.md)
 
 ---
 

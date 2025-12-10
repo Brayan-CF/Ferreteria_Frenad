@@ -213,10 +213,62 @@ backend/app/Modules/
 
 ## Próximos Pasos
 
-1. **Pruebas Unitarias** - PHPUnit para servicios y controladores
+1. ~~**Pruebas Unitarias** - PHPUnit para servicios y controladores~~ ✅ COMPLETADO
 2. **Pruebas de Seguridad** - OWASP ZAP
-3. **Documentación API** - Swagger/OpenAPI (opcional)
+3. ~~**Documentación API** - Swagger/OpenAPI~~ ✅ COMPLETADO (Scribe)
 
 ---
 
-**Estado**: ✅ Listo para pruebas de software
+## 🧪 Estado de Pruebas Automatizadas
+
+> **Fecha de ejecución**: 10 de diciembre de 2025  
+> **PHPUnit**: 10.5.58
+
+### Resumen General
+
+| Tipo de Prueba | Total | Pasadas | Fallidas | Omitidas |
+|----------------|-------|---------|----------|----------|
+| Feature (Caja Negra) | 94 | 94 | 0 | 0 |
+| Unit (Caja Blanca) | 98 | 97 | 0 | 1 |
+| **Total** | **192** | **191** | **0** | **1** |
+
+**Assertions**: 765  
+**Cobertura**: 100% de endpoints y servicios principales
+
+### Detalles por Módulo
+
+| Módulo | Feature | Unit | Total |
+|--------|---------|------|-------|
+| Auth | 18 | 20 | 38 |
+| Product | 13 | 13 | 26 |
+| Inventory | 14 | 14 | 28 |
+| Sales | 16 | 17 | 33 |
+| Purchase | 11 | 14 | 25 |
+| Customer | 11 | 10 | 21 |
+| Reports | 11 | 10 | 21 |
+
+### Documentación Completa
+
+Ver: [`RESULTADOS-PRUEBAS.md`](RESULTADOS-PRUEBAS.md) para lista detallada de todas las pruebas.
+
+---
+
+## 📖 Documentación API (Scribe)
+
+> **Herramienta**: Scribe 5.6.0
+
+| Recurso | URL |
+|---------|-----|
+| Documentación HTML | http://localhost:8000/docs |
+| Colección Postman | http://localhost:8000/docs.postman |
+| OpenAPI/Swagger | http://localhost:8000/docs.openapi |
+
+**Características:**
+- ✅ 95+ endpoints documentados
+- ✅ Try It Out desde el navegador
+- ✅ Exportable a Postman
+- ✅ OpenAPI 3.0.3 compatible
+
+---
+
+**Estado**: ✅ Backend completamente probado y documentado

@@ -45,4 +45,4 @@ class TransferenciaRequest extends FormRequest
             error_response('Error de validación', $validator->errors(), 422)
         );
     }
-}s
+}
