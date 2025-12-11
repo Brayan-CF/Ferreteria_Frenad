@@ -1,0 +1,64 @@
+# 🏪 Sistema POS - Ferretería FRENAD
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-10.50-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"/>
+  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/Docker-24+-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+</p>
+
+<p align="center">
+  <strong>Sistema completo de Punto de Venta y Gestión Administrativa</strong><br>
+  Desarrollado para ferreterías en El Alto, La Paz - Bolivia 🇧🇴
+</p>
+
+<p align="center">
+  <a href="#características">Características</a> •
+  <a href="#instalación-rápida">Instalación</a> •
+  <a href="#comandos-manuales-opcional">Comandos</a> •
+  <a href="#pruebas">Pruebas</a> •
+  <a href="#documentación">Documentación</a>
+</p>
+
+---
+
+## ✨ Características
+
+| Módulo | Descripción | Estado |
+|--------|-------------|--------|
+| 🛒 **Punto de Venta** | POS completo con soporte para ventas al contado y crédito | ✅ |
+| 📦 **Inventario** | Control multi-almacén con kardex automatizado | ✅ |
+| 🛍️ **Compras** | Gestión de órdenes y recepciones de mercadería | ✅ |
+| 👥 **Clientes** | CRM con límites de crédito y estados de cuenta | ✅ |
+| 💰 **Caja** | Arqueo diario de ingresos y egresos | ✅ |
+| 📊 **Reportes** | Ventas, compras, inventario y financiero | ✅ |
+| 🔐 **Seguridad** | Autenticación JWT con roles y permisos | ✅ |
+| 📝 **Auditoría** | Logs completos de operaciones críticas | ✅ |
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Capa | Tecnología |
+|------|------------|
+| 🌐 Frontend | HTML5 + CSS3 + JavaScript + Nginx |
+| 🔧 Backend API | Laravel 10.50 + PHP 8.2 |
+| 🐘 Base de Datos | PostgreSQL 15.8 |
+| 🐳 Containerización | Docker + Docker Compose |
+| 📖 API Docs | Scribe (OpenAPI 3.0) |
+| 🧪 Testing | PHPUnit (192 tests) |
+
+---
+
+## 📋 Requisitos Previos
+
+| Requisito | Versión Mínima | Verificar |
+|-----------|----------------|-----------|
+| 🐳 Docker | 20.10+ | \`docker --version\` |
+| 🐳 Docker Compose | 2.0+ | \`docker-compose --version\` |
+| 📂 Git | 2.0+ | \`git --version\` |
+| 💾 RAM | 4GB mínimo | - |
+| 💽 Disco | 10GB libres | - |
+
+---
+
